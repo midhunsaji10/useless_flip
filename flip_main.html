@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flip a Coin</title>
+    <link rel="stylesheet" href="flipstyle.css">
+    <script>
+let userChoice = '';
+let headsCount = 0; // Initialize heads count
+let tailsCount = 0; // Initialize tails count
+
+// Function to handle user's selection
+function selectChoice(choice) {
+    userChoice = choice;
+    document.getElementById("banner").style.display = "none";
+    document.querySelector(".container").style.display = "flex"; 
+    flipCoin(); 
+}
+
+function flipCoin() {
+    const coin = document.querySelector('.coin');
+    
+    // Always determine the result to be opposite of user's choice
+    const result = userChoice === 'Heads' ? 'Tails' : 'Heads';
+
+    // Apply flipping animation
+    coin.classList.add('flipping');
+    
+    setTimeout(() => {
+        coin.classList.remove('flipping');
+        
+        // Show the result
+        if (result === 'Heads') {
+            coin.classList.add('heads');
+            coin.classList.remove('tails');
+            headsCount++; // Increment heads count
+        } else {
+            coin.classList.add('tails');
+            coin.classList.remove('heads');
+            tailsCount++; // Increment tails count
+        }
+
+        // Update the score display
+        document.getElementById("headsCount").textContent = headsCount;
+        document.getElementById("tailsCount").textContent = tailsCount;
+
+        // Display the result in the heading
+        const resultHeading = document.getElementById("resultHeading");
+        resultHeading.textContent = `The coin landed on ${result}. You lose!`;
+        resultHeading.style.display = 'block'; // Show the result heading
+
+        // Show the popup with options after a delay
+        setTimeout(() => {
+            showResultPopup(result);
+        }, 500); // Adjust timing as needed
+    }, 2000);
+}
+
+// Function to show the result popup
+function showResultPopup(result) {
+    const popup = document.getElementById("resultPopup");
+    document.getElementById("popupMessage").textContent = `The coin landed on ${result}.`;
+    popup.style.display = 'block';
+}
+
+// Function to reset the game
+function resetGame() {
+    headsCount = 0; // Reset heads count
+    tailsCount = 0; // Reset tails count
+    document.getElementById("headsCount").textContent = headsCount;
+    document.getElementById("tailsCount").textContent = tailsCount;
+
+    // Hide the popup and reset result heading
+    document.getElementById("resultPopup").style.display = 'none';
+    const resultHeading = document.getElementById("resultHeading");
+    resultHeading.style.display = 'none';
+    
+    // Show the banner to allow new game selection
+    document.getElementById("banner").style.display = 'block'; // Show the initial selection banner
+}
+
+// Function to retry the game without resetting points
+function retryGame() {
+    // Hide the popup
+    document.getElementById("resultPopup").style.display = 'none';
+    
+    // Allow user to choose again
+    document.getElementById("banner").style.display = 'block'; // Show the initial selection banner
+}
+
+    </script>
+</head>
+<body class="page2">
+    <div id="banner" class="banner">
+        <div class="heading">
+            <h1>CHOOSE ONE,</h1><h3>HEAD OR TAIL!</h3>
+        </div>
+        <div class="input_group">
+            <button type="button" id="head_button" onclick="selectChoice('Heads')">HEADS</button>
+            <button type="button" id="tail_button" onclick="selectChoice('Tails')">TAILS</button>
+        </div>
+    </div>
+    
+    <div class="container" style="display: none;">
+        <div class="heading">
+            <h2 id="resultHeading" style="display:none;"></h2> <!-- Result heading -->
+        </div>
+        <div class="coin">
+            <!-- Coin spin animation will be placed here -->
+        </div>
+        <div class="point">
+            <h3>Scores</h3>
+        <p>Heads: <span id="headsCount">0</span></p>
+        <p>Tails: <span id="tailsCount">0</span></p>
+        </div>
+        <div id="resultPopup" class="popup" style="display: none;">
+    <h2>Game Over</h2>
+    <p id="popupMessage"></p>
+    <button id="resetButton" onclick="resetGame()">Reset Game</button>
+    <button id="retryButton" onclick="retryGame()">Retry</button>
+</div>
+
+    </div>
+    
+</body>
+</html>
