@@ -76,8 +76,10 @@ function resetGame() {
     const resultHeading = document.getElementById("resultHeading");
     resultHeading.style.display = 'none';
     
-    // Show the banner to allow new game selection
-    document.getElementById("banner").style.display = 'block'; // Show the initial selection banner
+    
+    window.location.href = 'flip_main.html'; // Redirect to the start page
+
+
 }
 
 // Function to retry the game without resetting points
@@ -120,8 +122,6 @@ function retryGame() {
     <button id="resetButton" onclick="resetGame()">Reset Game</button>
     <button id="retryButton" onclick="retryGame()">Retry</button>
 </div>
-
     </div>
-    
 </body>
 </html>
